@@ -34,6 +34,17 @@ public class CustomerServiceImple implements CustomerService {
         );
     }
 
+    @Override
+    public ResponseEntity<APIResponse> getCustomers() {
+
+        return ResponseEntity.ok(
+                APIResponse.builder()
+                        .errorCode(000)
+                        .data(customers.stream().map(customerModel -> modeltoResponse(customerModel)).toList())
+                        .build()
+        );
+    }
+
     private CustomerResponse modeltoResponse(CustomerModel model){
 
         return CustomerResponse.builder()
