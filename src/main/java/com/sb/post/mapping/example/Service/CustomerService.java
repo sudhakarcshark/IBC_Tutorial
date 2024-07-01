@@ -8,4 +8,5 @@ public interface CustomerService {
 
     ResponseEntity<APIResponse> createCustomer(CustomerRequest request);
     ResponseEntity<APIResponse> getCustomers();
+    ResponseEntity<APIResponse> getByCustomerId(long customerId);
 }

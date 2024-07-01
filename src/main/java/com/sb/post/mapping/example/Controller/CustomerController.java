@@ -27,6 +27,13 @@ public class CustomerController {
         return customerService.getCustomers();
     }
 
+    @GetMapping("getById/{customerId}")
+    public ResponseEntity<APIResponse> getAllCustomers(@PathVariable long customerId){
+
+        return customerService.getByCustomerId(customerId);
+
+    }
+
 
 }
 

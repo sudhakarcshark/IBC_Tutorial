@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
@@ -43,6 +44,31 @@ public class CustomerServiceImple implements CustomerService {
                         .data(customers.stream().map(customerModel -> modeltoResponse(customerModel)).toList())
                         .build()
         );
+    }
+
+    @Override
+    public ResponseEntity<APIResponse> getByCustomerId(long customerId) {
+
+       Optional<CustomerResponse>  optional = customers.stream().filter(customerModel -> customerModel.getCustomerId() == customerId)
+                .map(customerModel -> modeltoResponse(customerModel))
+                .findFirst();
+
+        if (optional.isPresent()){
+            return ResponseEntity.ok(
+                    APIResponse.builder()
+                            .errorCode(0)
+                            .data(optional.get())
+                            .build()
+            );
+        }else {
+            return ResponseEntity.ok(
+                    APIResponse.builder()
+                            .errorCode(500)
+                            .data(List.of())
+                            .build()
+            );
+        }
+
     }
 
     private CustomerResponse modeltoResponse(CustomerModel model){
