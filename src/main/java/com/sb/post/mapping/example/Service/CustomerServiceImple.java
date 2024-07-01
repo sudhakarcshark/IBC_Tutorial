@@ -18,7 +18,17 @@ public class CustomerServiceImple implements CustomerService {
 
    private static List<CustomerModel> customers = new ArrayList<>();
 
-   private AtomicInteger at = new AtomicInteger();
+   private static AtomicInteger at = new AtomicInteger();
+
+
+   static {
+       customers.add(new CustomerModel(at.getAndIncrement(),"sudhakar",35,"8553769931","sudhakarvisam26@gmail.com","Bangalore"));
+       customers.add(new CustomerModel(at.getAndIncrement(),"sunder",25,"8553765531","sundervisam26@gmail.com","KGF"));
+       customers.add(new CustomerModel(at.getAndIncrement(),"shruk",38,"8555543663","srksudhaa26@gmail.com","Chennai"));
+       customers.add(new CustomerModel(at.getAndIncrement(),"pradeeep",34,"97363563839","supradeep6@gmail.com","Bangalore"));
+       customers.add(new CustomerModel(at.getAndIncrement(),"arun",30,"85688393993","arunjackson6@gmail.com","Bangalore"));
+   }
+
 
 
     @Override
@@ -69,6 +79,28 @@ public class CustomerServiceImple implements CustomerService {
             );
         }
 
+    }
+
+    @Override
+    public ResponseEntity<APIResponse> deleteByCustomerId(long customerId) {
+       Boolean isRemoved = customers.removeIf(customerModel -> customerModel.getCustomerId() == customerId);
+       if (isRemoved){
+
+           return ResponseEntity.ok(
+                   APIResponse.builder()
+                           .errorCode(0)
+                           .data("Successfully Delete")
+                           .build()
+           );
+       } else {
+
+           return  ResponseEntity.ok(
+                   APIResponse.builder()
+                           .errorCode(600)
+                           .data("Datas are not found")
+                           .build()
+           );
+       }
     }
 
     private CustomerResponse modeltoResponse(CustomerModel model){

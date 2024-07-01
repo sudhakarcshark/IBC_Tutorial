@@ -33,8 +33,12 @@ public class CustomerController {
         return customerService.getByCustomerId(customerId);
 
     }
+    @DeleteMapping("deleteById/{customerId}")
+    public ResponseEntity<APIResponse> deleteById(@PathVariable long customerId){
 
+        return customerService.deleteByCustomerId(customerId);
 
+    }
 }
 
 
