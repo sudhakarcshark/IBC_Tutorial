@@ -103,6 +103,33 @@ public class CustomerServiceImple implements CustomerService {
        }
     }
 
+    @Override
+    public ResponseEntity<APIResponse> upDateCustomerDetails(long customerId, CustomerRequest request) {
+
+      Optional<CustomerModel> customerModelOptional = customers.stream()
+                   .filter(customerModel -> customerModel.getCustomerId() == customerId)
+                   .map(customerModel -> {
+                   customerModel.setCustomerName(request.getCustomerName());
+                   customerModel.setCustomerAge(request.getCustomerAge());
+                   customerModel.setCustomerMobileNumber(request.getCustomerMobileNumber());
+                   customerModel.setCustomerEmailAddress(request.getCustomerEmailAddress());
+                   customerModel.setCustomerAddress(request.getCustomerAddress());
+                   return customerModel;
+               })
+              .findFirst();
+        return customerModelOptional.map(customerModel -> ResponseEntity.ok(
+                APIResponse.builder()
+                        .errorCode(000)
+                        .data(modeltoResponse(customerModel))
+                        .build()
+        )).orElseGet(() -> ResponseEntity.ok(
+                APIResponse.builder()
+                        .errorCode(999)
+                        .data("Customer is not available")
+                        .build()
+        ));
+    }
+
     private CustomerResponse modeltoResponse(CustomerModel model){
 
         return CustomerResponse.builder()

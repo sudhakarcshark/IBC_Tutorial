@@ -39,6 +39,11 @@ public class CustomerController {
         return customerService.deleteByCustomerId(customerId);
 
     }
+    @PutMapping("/update/{customerId}")
+    public ResponseEntity<APIResponse> upDate(@PathVariable long customerId, @RequestBody CustomerRequest request){
+
+        return customerService.upDateCustomerDetails(customerId, request);
+    }
 }
 
 
